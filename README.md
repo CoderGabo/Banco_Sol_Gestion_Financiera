@@ -143,6 +143,12 @@ Este endpoint devuelve el hash correspondiente a la contraseña:
 
 Puede utilizarse para generar rapidamente contraseñas al insertar nuevos usuarios manualmente en la base de datos.
 
+# Tipo de cambio
+
+La API consulta el tipo de cambio USD/BOB mediante HexaRate.
+
+Como mecanismo de resiliencia, el sistema mantiene el ultimo tipo de cambio exitoso obtenido. En caso de indisponibilidad temporal del proveedor externo, se utiliza el ultimo valor disponible.
+
 # Endpoints
 
 | Metodo | Endpoint | Descripcion |

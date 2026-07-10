@@ -90,6 +90,7 @@ builder.Services.AddAuthentication(options =>
         };
 });
 
+builder.Services.AddSingleton<ExchangeRateCache>();
 builder.Services.AddHttpClient<IExchangeRateService, ExchangeRateService>(client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["ExchangeRate:BaseUrl"]!);
@@ -101,7 +102,6 @@ builder.Services.AddHttpClient<IExchangeRateService, ExchangeRateService>(client
 });
 
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
-builder.Services.AddSingleton<ExchangeRateCache>();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IIncomeService, IncomeService>();
