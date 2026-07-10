@@ -1,5 +1,6 @@
 ﻿using Banco_Sol_Gestion_Financiera.Common;
 using Banco_Sol_Gestion_Financiera.DTOs;
+using Banco_Sol_Gestion_Financiera.Services.ExchangeRate;
 using Banco_Sol_Gestion_Financiera.Services.Income;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +13,15 @@ namespace Banco_Sol_Gestion_Financiera.Controllers
     public class IncomesController : ControllerBase
     {
         private readonly IIncomeService _incomeService;
+        private readonly ILogger<ExchangeRateService> _logger;
 
-        public IncomesController(IIncomeService incomeService)
+        public IncomesController(
+            IIncomeService incomeService,
+            ILogger<ExchangeRateService> logger
+        )
         {
             _incomeService = incomeService;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -28,6 +34,7 @@ namespace Banco_Sol_Gestion_Financiera.Controllers
                 userId
             );
 
+            _logger.LogInformation("Income Creado Exitosamente!.");
             return CreatedAtAction(
                 nameof(GetById),
                 new { id = income.Id },
@@ -43,6 +50,7 @@ namespace Banco_Sol_Gestion_Financiera.Controllers
             var incomes =
                 await _incomeService.GetMyIncomesAsync(userId);
 
+            _logger.LogInformation("Incomes Obtenidos Exitosamente!.");
             return Ok(incomes);
         }
 
@@ -59,10 +67,14 @@ namespace Banco_Sol_Gestion_Financiera.Controllers
                 );
 
             if (income == null)
+            {
+                _logger.LogInformation("Error Income no encontrado!.");
                 throw new KeyNotFoundException(
                     $"INC003 - No existe el ingreso con id {id}."
                 );
+            }
 
+            _logger.LogInformation("Income Obtenido Exitosamente!.");
             return Ok(income);
         }
     }

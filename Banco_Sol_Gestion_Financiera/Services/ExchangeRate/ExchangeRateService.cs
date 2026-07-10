@@ -18,18 +18,12 @@ namespace Banco_Sol_Gestion_Financiera.Services.ExchangeRate
 
         public async Task<ExchangeRateDto> GetCurrentRateAsync()
         {
-            _logger.LogInformation("Consultando HexaRate");
+            _logger.LogInformation("Consultando tipo de cambio en HexaRate.");
             var response = await _httpClient.GetAsync("rates/USD/BOB/latest");
 
-            _logger.LogInformation("Status: {Status}", response.StatusCode);
-
-            var body = await response.Content.ReadAsStringAsync();
-
-            _logger.LogInformation("Body: {Body}", body);
             response.EnsureSuccessStatusCode();
 
             var result = await response.Content.ReadFromJsonAsync<HexaRateResponseDto>();
-
             
             if (result?.Data is null)
                 throw new Exception("No fue posible obtener el tipo de cambio.");

@@ -1,5 +1,6 @@
 ﻿using Banco_Sol_Gestion_Financiera.DTOs;
 using Banco_Sol_Gestion_Financiera.Services.Auth;
+using Banco_Sol_Gestion_Financiera.Services.ExchangeRate;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Banco_Sol_Gestion_Financiera.Controllers
@@ -7,11 +8,15 @@ namespace Banco_Sol_Gestion_Financiera.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _service;
+        private readonly ILogger<ExchangeRateService> _logger;
 
-
-        public AuthController(IAuthService service)
+        public AuthController(
+            IAuthService service,
+            ILogger<ExchangeRateService> logger
+        )
         {
             _service = service;
+            _logger = logger;
         }
 
 
@@ -29,7 +34,7 @@ namespace Banco_Sol_Gestion_Financiera.Controllers
                         message = "Credenciales incorrectas"
                     });
 
-
+            _logger.LogInformation("Login Exitoso!.");
             return Ok(response);
         }
 
@@ -38,6 +43,7 @@ namespace Banco_Sol_Gestion_Financiera.Controllers
         {
             var hash = BCrypt.Net.BCrypt.HashPassword("123456");
 
+            _logger.LogInformation("Hash Exitoso!.");
             return Ok(hash);
         }
     }

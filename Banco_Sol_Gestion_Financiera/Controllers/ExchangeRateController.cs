@@ -10,17 +10,22 @@ namespace Banco_Sol_Gestion_Financiera.Controllers
     public class ExchangeRateController: ControllerBase
     {
         private readonly IExchangeRateService _exchangeRateService;
+        private readonly ILogger<ExchangeRateService> _logger;
 
-        public ExchangeRateController(IExchangeRateService exchangeRateService)
+        public ExchangeRateController(
+            IExchangeRateService exchangeRateService,
+            ILogger<ExchangeRateService> logger
+        )
         {
             _exchangeRateService = exchangeRateService;
+            _logger = logger;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
             var rate = await _exchangeRateService.GetCurrentRateAsync();
-
+            _logger.LogInformation("ExchangeRate Exitoso!.");
             return Ok(rate);
         }
     }
