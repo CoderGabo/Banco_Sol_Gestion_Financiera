@@ -22,11 +22,11 @@ namespace Banco_Sol_Gestion_Financiera.Services.ExchangeRate
             var response = await _httpClient.GetAsync("rates/USD/BOB/latest");
 
             _logger.LogInformation("Status: {Status}", response.StatusCode);
-            response.EnsureSuccessStatusCode();
 
             var body = await response.Content.ReadAsStringAsync();
 
             _logger.LogInformation("Body: {Body}", body);
+            response.EnsureSuccessStatusCode();
 
             var result = await response.Content.ReadFromJsonAsync<HexaRateResponseDto>();
 
