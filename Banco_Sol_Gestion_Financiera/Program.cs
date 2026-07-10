@@ -101,6 +101,7 @@ builder.Services.AddHttpClient<IExchangeRateService, ExchangeRateService>(client
 });
 
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+builder.Services.AddSingleton<ExchangeRateCache>();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IIncomeService, IncomeService>();
