@@ -93,6 +93,11 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddHttpClient<IExchangeRateService, ExchangeRateService>(client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["ExchangeRate:BaseUrl"]!);
+
+    client.DefaultRequestHeaders.UserAgent.ParseAdd(
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/138.0 Safari/537.36");
+
+    client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
 });
 
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
