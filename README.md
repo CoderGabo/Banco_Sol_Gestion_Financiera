@@ -28,7 +28,13 @@ La solucion implementa autenticacion mediante JWT, documentacion con Swagger y d
 git clone https://github.com/CoderGabo/Banco_Sol_Gestion_Financiera.git
 ```
 
-2. Configurar el archivo `appsettings.json` o las variables de entorno.
+2. Crear una base de datos PostgreSQL.
+
+3. Ejecutar el script `database/schema.sql` para crear las tablas.
+
+4. (Opcional) Ejecutar `database/seed.sql` para cargar datos de prueba.
+
+5. Configurar el archivo `appsettings.json` o las variables de entorno.
 
 ```json
 ConnectionStrings:DefaultConnection
@@ -38,14 +44,7 @@ Jwt:Audience
 ExchangeRate:BaseUrl
 ```
 
-3. Ejecutar las migraciones.
-
-```bash
-dotnet ef database update
-```
-(Nota: No hace falta ejecutar este paso solo si necesitan localmente tenerlo pero tiene disponiblidad a acceder a la base de datos de Render sin problema.)
-
-4. Ejecutar la API.
+6. Ejecutar la API.
 
 ```bash
 dotnet run
@@ -55,8 +54,9 @@ La documentacion estara disponible en:
 
 ```text
 https://localhost:xxxx/swagger
-```
 
+```
+> Si prefieren utilizar la base de datos desplegada en Render, solo es necesario configurar la cadena de conexion correspondiente y omitir los pasos 2, 3 y 4.
 ---
 
 # API desplegada
@@ -67,7 +67,7 @@ API
 https://banco-sol-gestion-financiera.onrender.com
 ```
 
-Swagger (Redireccion realizada)
+Swagger
 
 ```text
 https://banco-sol-gestion-financiera.onrender.com/swagger
@@ -97,6 +97,19 @@ Todos los usuarios utilizan la misma contraseña:
 
 ---
 
+# Base de datos
+
+Dentro de la carpeta `database` se incluyen los scripts necesarios para crear la estructura de la base de datos y cargar informacion de ejemplo.
+
+```text
+database/
+├── schema.sql
+└── seed.sql
+```
+
+- `schema.sql` crea las tablas utilizadas por la aplicacion.
+- `seed.sql` inserta usuarios e ingresos de prueba para facilitar la evaluacion.
+
 # Autenticacion
 
 Todos los endpoints, excepto los de autenticacion, requieren un JWT.
@@ -113,6 +126,22 @@ Bearer {token}
 ```
 
 ---
+
+# Generacion de hash
+
+La API incluye un endpoint auxiliar para generar un hash BCrypt compatible con la autenticacion utilizada por el sistema.
+
+```text
+GET /api/auth/hash
+```
+
+Este endpoint devuelve el hash correspondiente a la contraseña:
+
+```text
+123456
+```
+
+Puede utilizarse para generar rapidamente contraseñas al insertar nuevos usuarios manualmente en la base de datos.
 
 # Endpoints
 
